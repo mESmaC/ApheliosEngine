@@ -1,10 +1,6 @@
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-FIREBASE_CREDENTIALS_PATH = os.path.join(BASE_DIR, '..', 'secret', 'starlight-965f4-firebase-adminsdk-6a50j-52af2d23d8.json')
-FIRESTORE_PROJECT_ID = 'starlight-965f4'  
-FIRESTORE_DATABASE_URL = f'https://firestore.googleapis.com/v1/projects/starlight-965f4/databases/(default)/documents'
-APP_CHECK_DEBUG_TOKEN = '184A76FF-4F28-4E90-8D2A-4471FAAFCF4C'  
 
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
