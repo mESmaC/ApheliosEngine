@@ -21,3 +21,8 @@ If there is no currently trained model follow the steps below:
   3. Access the flask app interface on the localhost url provided by analyics.py
   4. Click forece fetch to start initial fetch and model training.
   5. Optionally restart the LLM after initial training
+
+# To Note: <span style="color:red">IMPORTANT</SPAN>
+
+This repository is not designed to be deployed as is. Certain proprietary information has been redacted. 
+The main purpose this repository serves is to ensure transparency of user data collection.
