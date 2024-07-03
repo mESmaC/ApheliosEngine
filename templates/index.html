@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        .card h2 {
+            margin-top: 0;
+        }
+        .logs {
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Analytics Dashboard</h1>
+    </header>
+    <div class="container">
+        <div class="card">
+            <h2>Status</h2>
+            <div id="status">Loading...</div>
+        </div>
+        <div class="card">
+            <h2>Logs</h2>
+            <div class="logs" id="logs">Loading...</div>
+        </div>
+        <div class="card">
+            <h2>Video Statistics</h2>
+            <div id="video-stats">Loading...</div>
+        </div>
+        <div class="card">
+            <h2>Other Analytics</h2>
+            <div id="analytics">Coming soon...</div>
+        </div>
+        <div class="card">
+            <button class="button" onclick="forceFetch()">Force Fetch</button>
+            <button class="button" onclick="forceWrite()">Force Write</button>
+            <button class="button" onclick="safeShutdown()">Safe Shutdown</button>
+        </div>
+    </div>
+
+    <script>
+        async function fetchStatus() {
+            const response = await fetch('/status');
+            const data = await response.json();
+            document.getElementById('status').innerText = `Status: ${data.status}`;
+        }
+
+        async function fetchLogs() {
+            const response = await fetch('/logs');
+            const data = await response.json();
+            const logsContainer = document.getElementById('logs');
+            logsContainer.innerHTML = '';
+            data.forEach(log => {
+                const logEntry = document.createElement('div');
+                logEntry.textContent = log;
+                logsContainer.appendChild(logEntry);
+            });
+            logsContainer.scrollTop = logsContainer.scrollHeight; 
+        }
+
+        async function fetchVideoStats() {
+            const response = await fetch('/video_stats');
+            const data = await response.json();
+            document.getElementById('video-stats').innerText = `Total Impressions: ${data.total_impressions}, Total Views: ${data.total_views}`;
+        }
+
+        async function forceFetch() {
+            const confirmation = prompt("Type 'FORCE' to confirm force fetch:");
+            if (confirmation === 'FORCE') {
+                const response = await fetch('/force_fetch', { method: 'POST' });
+                if (response.ok) {
+                    alert('Force fetch initiated.');
+                } else {
+                    alert('Failed to initiate force fetch.');
+                }
+            } else {
+                alert('Force fetch cancelled.');
+            }
+        }
+
+        async function forceWrite() {
+            const confirmation = prompt("Type 'FORCE' to confirm force write:");
+            if (confirmation === 'FORCE') {
+                const response = await fetch('/force_write', { method: 'POST' });
+                if (response.ok) {
+                    alert('Force write initiated.');
+                } else {
+                    alert('Failed to initiate force write.');
+                }
+            } else {
+                alert('Force write cancelled.');
+            }
+        }
+
+        async function safeShutdown() {
+            const confirmation = prompt("Type 'SHUTDOWN' to confirm safe shutdown:");
+            if (confirmation === 'SHUTDOWN') {
+                const response = await fetch('/shutdown', { method: 'POST' });
+                if (response.ok) {
+                    alert('Safe shutdown initiated.');
+                } else {
+                    alert('Failed to initiate safe shutdown.');
+                }
+            } else {
+                alert('Safe shutdown cancelled.');
+            }
+        }
+
+        fetchStatus();
+        fetchLogs();
+        fetchVideoStats();
+        setInterval(fetchLogs, 5000); 
+    </script>
+</body>
+</html>

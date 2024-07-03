@@ -1,0 +1,10 @@
+firebase-admin
+redis
+tensorflow
+tensorflow-recommenders
+spacy
+flask
+nltk
+gensim
+scikit-learn
+schedule
